@@ -12,7 +12,7 @@ public class BuildCity : MonoBehaviour {
     public int mapWidth = 200;
     public int mapHeight = 200;
 
-    private int buildingFootprint = 2;
+    private int buildingFootprint = 15;
     private int[,] mapgrid;
 
     // Start is called before the first frame update
