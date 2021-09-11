@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class UnitSelection : MonoBehaviour {
+public class UnitSelectionManager : MonoBehaviour {
 
     public RectTransform selectionBox;
     public LayerMask unitLayerMask;
-    private List<Unit> selectedUnits = new List<Unit>();
+    private List<Unit> selectedUnits;
     private Vector2 startPos;
 
     // Components
@@ -17,6 +18,7 @@ public class UnitSelection : MonoBehaviour {
     void Awake() {
         cam = Camera.main;
         player = GetComponent<Player>();
+        selectedUnits = new List<Unit>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,19 @@ public class UnitSelection : MonoBehaviour {
         // Left mouse button release
         if (Input.GetMouseButtonUp(0)) {
             ReleaseSelectionBox();
+        }
+
+        // Right mouse button click
+        if (Input.GetMouseButtonDown(1)) {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit)) {
+                foreach (Unit unit in selectedUnits) {
+                    unit.SetDestination(hit.point);
+
+                }
+            }
         }
 
     }
